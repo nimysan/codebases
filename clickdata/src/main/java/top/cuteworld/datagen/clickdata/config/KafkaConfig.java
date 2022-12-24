@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
+import org.springframework.util.concurrent.ListenableFuture;
 import top.cuteworld.datagen.clickdata.model.UserActionEmitter;
 import top.cuteworld.datagen.clickdata.model.UserBehaviorItem;
 
@@ -32,7 +34,8 @@ public class KafkaConfig {
         UserActionEmitter userActionEmitter = new UserActionEmitter(new Function<UserBehaviorItem, Void>() {
             @Override
             public Void apply(UserBehaviorItem userBehaviorItem) {
-                kafkaTemplate.send(TOPIC_NAME, toJson(userBehaviorItem));
+                ListenableFuture<SendResult<String, String>> send = kafkaTemplate.send(TOPIC_NAME, toJson(userBehaviorItem));
+//                log.info(send.completable());
                 return null;
             }
 
