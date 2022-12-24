@@ -30,18 +30,14 @@ public class KafkaConfig {
 
 
     @Bean
-    public UserActionEmitter emitter(KafkaTemplate<String, String> kafkaTemplate) {
+    public UserActionEmitter emitter(KafkaTemplate<String, UserBehaviorItem> kafkaTemplate) {
         UserActionEmitter userActionEmitter = new UserActionEmitter(new Function<UserBehaviorItem, Void>() {
             @Override
             public Void apply(UserBehaviorItem userBehaviorItem) {
-                ListenableFuture<SendResult<String, String>> send = kafkaTemplate.send(TOPIC_NAME, toJson(userBehaviorItem));
-//                log.info(send.completable());
+                kafkaTemplate.send(TOPIC_NAME, userBehaviorItem);
                 return null;
             }
 
-            private String toJson(UserBehaviorItem userBehaviorItem) {
-                return "123";
-            }
         });
         userActionEmitter.batchEmit();
         return userActionEmitter;
