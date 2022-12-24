@@ -1,8 +1,15 @@
 # IDEA
 
 ```bash
+cd scripts
+./start_kafka.sh # 启动本地kafka集群
+#docker image pull慢， 可以参考这个: https://dockerproxy.com/docs
+
 mvn clean package #启动数据写入程序
 ```
+
+Kafdrop url: http://localhost:9000
+kafka broker: localhost:9092
 
 ## IDEA Spring依赖包找不到
 

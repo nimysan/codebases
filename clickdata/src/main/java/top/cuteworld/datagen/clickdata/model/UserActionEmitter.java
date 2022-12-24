@@ -22,6 +22,7 @@ public class UserActionEmitter implements Runnable {
     private static boolean stop_now = false;
 
     public static final Map<String, Long> EMIT_STATISTICS = new HashMap<>();
+    public static long totalSize = 0;
 
     private Function<UserBehaviorItem, Void> sendOutFunction;
 
@@ -101,9 +102,13 @@ public class UserActionEmitter implements Runnable {
 
 
     private static synchronized void showStatistics() {
+
         for (String key : EMIT_STATISTICS.keySet()) {
+            long size = EMIT_STATISTICS.get(key);
+            totalSize = totalSize + size;
             log.info("Product Id:" + key + "->" + EMIT_STATISTICS.get(key));
         }
+        log.info("Total gen size {}", totalSize);
     }
 
 }

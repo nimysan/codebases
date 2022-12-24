@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.NewTopic;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -47,10 +46,10 @@ public class KafkaConfig {
             public Void apply(UserBehaviorItem userBehaviorItem) {
                 try {
                     String s = objectMapper.writeValueAsString(userBehaviorItem);
-                    log.info("S is {}", s);
+//                    log.info("S is {}", s);
                     kafkaTemplate.send(TOPIC_NAME, s);
                 } catch (JsonProcessingException e) {
-                    log.info("Json error", e);
+//                    log.info("Json error", e);
                 }
                 return null;
             }
@@ -60,10 +59,4 @@ public class KafkaConfig {
         return userActionEmitter;
     }
 
-    @Bean
-    public ApplicationRunner runner(KafkaTemplate<String, String> template) {
-        return args -> {
-            template.send(TOPIC_NAME, "test");
-        };
-    }
 }
