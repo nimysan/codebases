@@ -102,13 +102,13 @@ public class UserActionEmitter implements Runnable {
 
 
     private static synchronized void showStatistics() {
-
+        long total = 0l;
         for (String key : EMIT_STATISTICS.keySet()) {
             long size = EMIT_STATISTICS.get(key);
-            totalSize = totalSize + size;
+            total = total + size;
             log.info("Product Id:" + key + "->" + EMIT_STATISTICS.get(key));
         }
-        log.info("Total gen size {}", totalSize);
+        log.info("Total gen size {}", total);
     }
 
 }
