@@ -1,5 +1,9 @@
 # IDEA
 
+```bash
+mvn clean package #启动数据写入程序
+```
+
 ## IDEA Spring依赖包找不到
 
 ```bash
@@ -15,13 +19,12 @@ b-3.rdskafkareplication.qh77pm.c1.kafka.us-east-1.amazonaws.com:9092
 ssh -i us-east-1.pem -L 9092:b-3.rdskafkareplication.qh77pm.c1.kafka.us-east-1.amazonaws.com:9092 ec2-user@54.152.225.130
 #然后在本地localhost:9092
 ```
+
 ### 安装和访问kafka管理界面
 
 ```bash
 ssh -i us-east-1.pem -L 9000:54.152.225.130:9000 ec2-user@54.152.225.130
 ```
-
-
 
 ## 连接MSK错误排除
 
