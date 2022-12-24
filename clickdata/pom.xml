@@ -73,6 +73,12 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+        </profile>
+        <profile>
+            <id>aliyun</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
             <repositories>
                 <repository>
                     <id>central</id>
