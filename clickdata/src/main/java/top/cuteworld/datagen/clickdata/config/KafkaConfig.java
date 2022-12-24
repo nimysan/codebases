@@ -1,10 +1,15 @@
 package top.cuteworld.datagen.clickdata.config;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
@@ -30,11 +35,26 @@ public class KafkaConfig {
 
 
     @Bean
-    public UserActionEmitter emitter(KafkaTemplate<String, UserBehaviorItem> kafkaTemplate) {
+    @Primary
+    public ObjectMapper objectMapper() {
+//        JavaTimeModule module = new JavaTimeModule();
+//        module.addSerializer(LOCAL_DATETIME_SERIALIZER);
+        return new ObjectMapper()
+                .setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    }
+
+    @Bean
+    public UserActionEmitter emitter(KafkaTemplate<String, String> kafkaTemplate, ObjectMapper objectMapper) {
         UserActionEmitter userActionEmitter = new UserActionEmitter(new Function<UserBehaviorItem, Void>() {
             @Override
             public Void apply(UserBehaviorItem userBehaviorItem) {
-                kafkaTemplate.send(TOPIC_NAME, userBehaviorItem);
+                try {
+                    String s = objectMapper.writeValueAsString(userBehaviorItem);
+                    log.info("S is {}", s);
+                    kafkaTemplate.send(TOPIC_NAME, s);
+                } catch (JsonProcessingException e) {
+                    log.info("Json error", e);
+                }
                 return null;
             }
 

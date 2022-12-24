@@ -37,7 +37,12 @@ public class UserActionEmitter implements Runnable {
         log.trace("The pid is {}", pid);
         UserBehaviorItem userBehaviorItem = UserBehaviorItem.builder().action(ACTIONS[(int) Math.random() * m]).userId("u_1").eventTime(new Date()).productId("p_" + pid) //随机产生PID
                 .build();
-        sendOutFunction.apply(userBehaviorItem); //real send out
+        try {
+            sendOutFunction.apply(userBehaviorItem); //real send out
+        } catch (Exception e) {
+            log.error("failed to apply", e);
+        }
+
         statistics(userBehaviorItem);
     }
 
