@@ -38,3 +38,16 @@ ssh -i us-east-1.pem -L 9000:54.152.225.130:9000 ec2-user@54.152.225.130
 [Producer clientId=producer-1] Error while fetching metadata with correlation id 143 :
 {flink-user-behavior-data=UNKNOWN_TOPIC_OR_PARTITION}
 
+### brew 安装的mariadb访问
+
+> https://www.twle.cn/t/803
+
+```bash
+mysql -u yexw #没有密码
+create database uv;
+grant all privileges on uv.* to test@'%' identified by 'newpass';
+flush privileges;
+
+#等操作
+brew brew services info/restart/stop/start mariadb
+```

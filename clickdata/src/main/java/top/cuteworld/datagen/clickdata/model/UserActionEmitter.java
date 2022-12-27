@@ -65,7 +65,7 @@ public class UserActionEmitter implements Runnable {
             emit();
             try {
                 //随机暂停
-                Thread.sleep((long) (Math.random() * 100l));
+                Thread.sleep(10 + (long) (Math.random() * 100l));
             } catch (InterruptedException e) {
             }
         }
@@ -73,8 +73,8 @@ public class UserActionEmitter implements Runnable {
 
     public void batchEmit() {
         {
-            ExecutorService executorService = Executors.newFixedThreadPool(10);
-            for (int i = 0; i < 10; i++) {
+            ExecutorService executorService = Executors.newFixedThreadPool(5);
+            for (int i = 0; i < 5; i++) {
                 executorService.submit(new UserActionEmitter(this.sendOutFunction));
             }
             System.out.println("Emitter is launched!!!");
